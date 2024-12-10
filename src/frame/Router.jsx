@@ -4,6 +4,7 @@ import HomePage from '../pages/HomePage';
 import Special from '../component/Special';
 import Feature from '../component/Feature';
 // import ProductList from '../pages/ProductList';
+import LoginPage from "../pages/LoginPage1"
 import SingleProduct from '../component/SingleProduct';
 import Header from '../component/Header';
 import { ToastContainer } from 'react-toastify';
@@ -24,9 +25,10 @@ const Router = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/feature" element={<Feature />} />
         <Route path="/special" element={<Special />} />
+        <Route path="/LoginPage" element={<LoginPage />} />
         {/* <Route path="/product" element={<ProductList />} /> */}
         <Route
-          path="/singleproduct/:productId"
+          path="/singleproduct"
           element={<SingleProduct addToCart={addToCart} />}
         />
         <Route
@@ -37,7 +39,7 @@ const Router = () => {
               <ul>
                 {cart.map((item, index) => (
                   <li key={index} className="p-2 border-b">
-                    {item.title} - ${item.price}
+                    {item.title} - ${item.price} -${item.Image}
                   </li>
                 ))}
               </ul>

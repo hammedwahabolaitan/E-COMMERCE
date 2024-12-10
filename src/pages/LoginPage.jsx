@@ -1,93 +1,161 @@
-import React from 'react';
 
-const LoginPage = () => {
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../utils/atom/userAtom";
+
+const AuthPage = () => {
+  const [isLogin, setIsLogin] = useState(true); // Toggle between Login and Sign-Up
+  const navigate = useNavigate();
+  const [usertoken, setUsertoken] = useRecoilState(userState);
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    username: "",
+    phoneNumber: "",
+  });
+
+  const toggleForm = () => {
+    setIsLogin(!isLogin);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const endpoint = isLogin ? "/login" : "/signup";
+
+    try {
+      const response = await axios.post(`http://localhost:2020${endpoint}`, form);
+      if (response.data.status === "Added successfully" || response.data.status === "Login successful") {
+        toast.success(response.data.status, { position: "top-right" });
+        if (isLogin) {
+          // alert(response.data.jwttoken);
+          setUsertoken(response.data.jwttoken); // Save logged-in user data to global state
+          navigate("/"); // Redirect to the homepage
+        } else {
+          toggleForm(); // Switch to login after successful sign-up
+
+        }
+      } else {
+        toast.error("An error occurred", { position: "top-right" });
+      }
+    } catch (error) {
+      toast.error("Authentication failed", { position: "top-right" });
+      console.error(error);
+      
+    }
+  };
+
   return (
-    <>
-      {/* Breadcrumb Section */}
-      <div className="bg-gray-100 py-4">
-        <div className="container mx-auto">
-          <div className="flex justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold">Login</h2>
-            </div>
-            <nav aria-label="breadcrumb">
-              <ol className="flex space-x-2 text-gray-600">
-                <li>
-                  <a href="/" className="hover:text-gray-900">Home</a>
-                </li>
-                <li className="text-gray-500">Login</li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
+        <h2 className="text-center text-3xl font-bold">
+          {isLogin ? "Login" : "Sign Up"}
+        </h2>
 
-      {/* Login Section */}
-      <section className="py-8">
-        <div className="container mx-auto">
-          <div className="flex flex-wrap">
-            {/* Login Form */}
-            <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
-              <h3 className="text-2xl font-semibold mb-6">Login</h3>
-              <div className="bg-white shadow-md rounded-lg p-6">
-                <form className="space-y-4">
-                  <div>
-                    <label htmlFor="email" className="block text-gray-700">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      placeholder="Email"
-                      className="w-full px-3 py-2 border rounded-md"
-                      defaultValue="test@gmail.com"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="password" className="block text-gray-700">Password</label>
-                    <input
-                      type="password"
-                      id="password"
-                      placeholder="Enter your password"
-                      className="w-full px-3 py-2 border rounded-md"
-                      defaultValue="test123"
-                    />
-                  </div>
-                  <a href="#" className="bg-blue-500 text-white px-4 py-2 rounded-md inline-block text-center">Login</a>
-                </form>
-
-                {/* Social Login */}
-                <div className="mt-6">
-                  <ul className="flex space-x-4">
-                    <li>
-                      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                        <i className="fa fa-facebook text-blue-600 text-2xl"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer">
-                        <i className="fa fa-google-plus text-red-500 text-2xl"></i>
-                      </a>
-                    </li>
-                  </ul>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4">
+            {!isLogin && (
+              <>
+                <div>
+                  <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={form.username}
+                    onChange={handleInputChange}
+                    required={!isLogin}
+                    className="w-full px-3 py-2 border rounded-lg text-black"
+                  />
                 </div>
-              </div>
+                <div>
+                  <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={form.phoneNumber}
+                    onChange={handleInputChange}
+                    required={!isLogin}
+                    className="w-full px-3 py-2 border rounded-lg text-black"
+                  />
+                </div>
+              </>
+            )}
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={form.email}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border rounded-lg text-black"
+              />
             </div>
 
-            {/* New Customer Section */}
-            <div className="w-full lg:w-1/2">
-              <h3 className="text-2xl font-semibold mb-6">New Customer</h3>
-              <div className="bg-white shadow-md rounded-lg p-6">
-                <h6 className="text-lg font-semibold mb-2">Create An Account</h6>
-                <p className="mb-4">
-                  Sign up for a free account at our store. Registration is quick and easy. It allows you to be able to order from our shop. To start shopping, click register.
-                </p>
-                <a href="#" className="bg-green-500 text-white px-4 py-2 rounded-md inline-block text-center">Create an Account</a>
-              </div>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={form.password}
+                onChange={handleInputChange}
+                required
+                className="w-full px-3 py-2 border rounded-lg text-black"
+              />
             </div>
           </div>
-        </div>
-      </section>
-    </>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 mt-4"
+          >
+            {isLogin ? "Login" : "Sign Up"}
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-gray-600 mt-4">
+          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          <button onClick={toggleForm} className="text-blue-600 hover:underline">
+            {isLogin ? "Sign Up" : "Login"}
+          </button>
+        </p>
+      </div>
+    </div>
   );
 };
 
-export default LoginPage;
+export default AuthPage;
+
+
+
+
+
+
+
+
+
+

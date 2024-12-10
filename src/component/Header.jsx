@@ -1,5 +1,10 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import  { useEffect } from "react";
+
+// import { useNavigate } from "react-router-dom";
+// import { useRecoilValue } from "recoil";
+// import { userState } from "../utils/atom/userAtom";
 
 import { Link } from 'react-router-dom';
 // menu items 
@@ -44,7 +49,7 @@ const menuItems = [
     link:"/login",
          subMenu:[
           //  
-           { name:"Login",  link:""},
+           { name:"Login",  link:"/LoginPage"},
            { name:"Register",  link:"/RegisterPage"},
            { name:"LogOut",  link:""},
          ]
@@ -61,8 +66,21 @@ const menuItems = [
   
   
 export default function Header({cartCount} ) {
-
+  // const user = useRecoilValue(userState);
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("usertoken") || localStorage.getItem("usertoken")=="") {
+      navigate("/LoginPage");
+    }
+    
+  }, []);
+
+  // Render nothing if the localStorage is not logged in
+  if (!localStorage.getItem('usertoken')) {
+    return null;
+  }
+
+  // const navigate = useNavigate();
 
   return (
     <div>
@@ -84,8 +102,8 @@ export default function Header({cartCount} ) {
         <div className="relative group">
           <i className="pi pi-user mr-2" aria-hidden="true"></i> My Account
           <ul className="absolute right-0 mt-2 hidden bg-white shadow-lg group-hover:block">
-            <li><a href="/login" className="block px-4 py-2 hover:bg-gray-100">Login</a></li>
-            <li><a href="/register" className="block px-4 py-2 hover:bg-gray-100">Register</a></li>
+          <a href="/LoginPage">  <li><a href="/login" className="block px-4 py-2 hover:bg-gray-100">Login</a></li></a>
+            <li><a href="/LoginPage" className="block px-4 py-2 hover:bg-gray-100">Register</a></li>
             <li><a href="#" className="block px-4 py-2 hover:bg-gray-100">Logout</a></li>
           </ul>
         </div>

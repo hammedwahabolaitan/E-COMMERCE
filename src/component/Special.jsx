@@ -1,8 +1,10 @@
 import React from 'react';
 import Footer from '../pages/footer';
-
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { producttag } from '../pages/api';
 // ProductCard Component
-const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) => {
+const ProductCard = ({ imageUrl, title, price, originalPrice}) => {
 
   return (
     <div className="w-80 border rounded-md shadow-sm">
@@ -19,7 +21,7 @@ const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) 
       {/* Product Details */}
       <div className="text-center mt-4">
         <div className="flex items-center justify-center space-x-1">
-          {Array.from({ length: 5 }).map((_, index) => (
+          {/* {Array.from({ length: 5 }).map((_, index) => (
             <svg
               key={index}
               className={`w-5 h-5 ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
@@ -27,15 +29,15 @@ const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) 
               viewBox="0 0 20 20"
             >
               <path d="M9.049 2.927C9.198 2.392 9.802 2.392 9.951 2.927l1.234 4.045a1 1 0 00.95.676h4.243c.56 0 .79.716.34 1.065l-3.33 2.42a1 1 0 00-.363 1.118l1.234 4.045c.15.535-.404.974-.816.707l-3.33-2.42a1 1 0 00-1.176 0l-3.33 2.42c-.412.267-.966-.172-.816-.707l1.234-4.045a1 1 0 00-.363-1.118L2.775 8.713c-.45-.349-.22-1.065.34-1.065h4.243a1 1 0 00.95-.676L9.049 2.927z" />
-            </svg>
-          ))}
+            </svg> */}
+          {/* ))} */}
         </div>
         <h2 className="text-xl font-semibold mt-2">{title}</h2>
-        <div className="text-lg font-bold text-orange-600">${price.toFixed(2)}</div>
-        <div className="text-sm text-gray-500 line-through">${originalPrice.toFixed(2)}</div>
+        <div className="text-lg font-bold text-orange-600 case">${price.toFixed(2)}</div>
+        {/* <div className="text-sm text-gray-500 line-through">${originalPrice.toFixed(2)}</div> */}
 
         {/* Color Options */}
-        <div className="flex justify-center mt-2 space-x-2">
+        {/* <div className="flex justify-center mt-2 space-x-2">
           {colors.map((color, index) => (
             <span
               key={index}
@@ -43,7 +45,7 @@ const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) 
               style={{ backgroundColor: color }}
             ></span>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -55,65 +57,18 @@ const ProductList = () => {
   const goto = (page) => {
     navigate(page);
   };
-  const products = [
-    {
-        id: 1,
-        imageUrl: 'src/assets/img/5(2).jpg',
-        title: 'Jacket',
-        price: 95.5,
-        originalPrice: 140,
-        rating: 5,
-        colors: ['#2E2E2E', '#FF5733']
-      },
-  
-      {
-        id: 2,
-        imageUrl: 'src/assets/img/6(1).jpg',
-        title: 'Jacket',
-        price: 95.5,
-        originalPrice: 140,
-        rating: 5,
-        colors: ['#2E2E2E', '#FF5733']
-      },
-  
-      {
-        id: 3,
-        imageUrl: 'src/assets/img/7(1).jpg',
-        title: 'Jacket',
-        price: 95.5,
-        originalPrice: 140,
-        rating: 5,
-        colors: ['#2E2E2E', '#FF5733']
-      },
-    {
-      id: 4,
-      imageUrl: 'src/assets/img/11(1).jpg',
-      title: 'Waist Dress',
-      price: 184,
-      originalPrice: 230,
-      rating: 4,
-      colors: ['#4CAF50', '#2C3E50']
-    },
-    {
-      id: 5,
-      imageUrl: 'src/assets/img/1(2).jpg',
-      title: 'Crop Top',
-      price: 72.6,
-      originalPrice: 121,
-      rating: 4,
-      colors: ['#B0A78B', '#D3B5A5', '#DCDCDC']
-    },
-    {
-      id: 6,
-      imageUrl: 'src/assets/img/3(2).jpg',
-      title: 'Jacket',
-      price: 95.5,
-      originalPrice: 140,
-      rating: 5,
-      colors: ['#2E2E2E', '#FF5733']
-    },
+  // const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
 
-  ];
+  useEffect(() => {
+    async function products() {
+      const response = await producttag("special");
+      setProducts(response.result);
+      console.log(response);
+    }
+
+    products();
+  }, []);
 
   return (
    <div>
@@ -123,22 +78,22 @@ const ProductList = () => {
         <h2 className="title-inner1 text-2xl font-bold uppercase">Special Products</h2>
         <div className="line my-2 border-t-2 border-gray-300"></div>
       </div>
-      <ul className="tabs flex gap-4 mb-4 border-b-2 border-gray-300">
-        <li className="active cursor-pointer px-4 py-2 hover:text-blue-500  " onClick={()=>goto('/Product')}>NEW ARRIVAL</li>
+      <a href=""><ul className="tabs flex gap-4 mb-4 border-b-2 border-gray-300">
+        <li  className="active cursor-pointer px-4 py-2 hover:text-blue-500  " onClick={()=>goto('/Product')}>NEW ARRIVAL</li>
         <li className="cursor-pointer px-4 py-2 hover:text-blue-500 "  onClick={()=>goto('/feature')}>FEATURED</li>
         <li className="cursor-pointer px-4 py-2 text-blue-500 border-b-2 border-blue-500" >SPECIAL</li>
-      </ul>
+      </ul></a>
       {/* Product List */}
       <div className="flex flex-wrap justify-around gap-5">
         {products.map((product) => (
           <ProductCard
             key={product.id}
-            imageUrl={product.imageUrl}
-            title={product.title}
-            price={product.price}
+            imageUrl="src/assets/img/8.jpg"
+            title={product.itemsName}
+            price={product.itemsPrice}
             originalPrice={product.originalPrice}
-            rating={product.rating}
-            colors={product.colors}
+            // rating={product.rating}
+            // colors={product.colors}
           />
         ))}
       </div>

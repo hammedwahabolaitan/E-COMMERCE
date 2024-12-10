@@ -9,9 +9,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../pages/footer';
 import Header from './Header';
-
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { producttag } from '../pages/api';
 // ProductCard Component
-const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) => {
+const ProductCard = ({ imageUrl, title, price, originalPrice}) => {
   return (
    <div>
      <div className="w-80 border rounded-md shadow-sm">
@@ -20,15 +22,15 @@ const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) 
         <img src={imageUrl} alt={title} className="object-cover" />
         <div className="absolute bottom-0 left-0 flex justify-center w-full space-x-1">
           {/* Image Thumbnails */}
-          <img src={imageUrl} className="w-8 h-12 opacity-75" alt="Thumbnail 1" />
+          {/* <img src={imageUrl} className="w-8 h-12 opacity-75" alt="Thumbnail 1" />
           <img src={imageUrl} className="w-8 h-12 opacity-75" alt="Thumbnail 2" />
-          <img src={imageUrl} className="w-8 h-12 opacity-75" alt="Thumbnail 3" />
+          <img src={imageUrl} className="w-8 h-12 opacity-75" alt="Thumbnail 3" /> */}
         </div>
       </div>
       {/* Product Details */}
       <div className="text-center mt-4">
         <div className="flex items-center justify-center space-x-1">
-          {Array.from({ length: 5 }).map((_, index) => (
+          {/* {Array.from({ length: 5 }).map((_, index) => (
             <svg
               key={index}
               className={`w-5 h-5 ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
@@ -37,14 +39,14 @@ const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) 
             >
               <path d="M9.049 2.927C9.198 2.392 9.802 2.392 9.951 2.927l1.234 4.045a1 1 0 00.95.676h4.243c.56 0 .79.716.34 1.065l-3.33 2.42a1 1 0 00-.363 1.118l1.234 4.045c.15.535-.404.974-.816.707l-3.33-2.42a1 1 0 00-1.176 0l-3.33 2.42c-.412.267-.966-.172-.816-.707l1.234-4.045a1 1 0 00-.363-1.118L2.775 8.713c-.45-.349-.22-1.065.34-1.065h4.243a1 1 0 00.95-.676L9.049 2.927z" />
             </svg>
-          ))}
+          ))} */}
         </div>
         <h2 className="text-xl font-semibold mt-2">{title}</h2>
         <div className="text-lg font-bold text-orange-600">${price.toFixed(2)}</div>
         <div className="text-sm text-gray-500 line-through">${originalPrice.toFixed(2)}</div>
 
         {/* Color Options */}
-        <div className="flex justify-center mt-2 space-x-2">
+        {/* <div className="flex justify-center mt-2 space-x-2">
           {colors.map((color, index) => (
             <span
               key={index}
@@ -52,7 +54,7 @@ const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) 
               style={{ backgroundColor: color }}
             ></span>
           ))}
-        </div>
+        </div> */}
       </div>
       
     </div>
@@ -67,6 +69,17 @@ const ProductCard = ({ imageUrl, title, price, originalPrice, colors, rating }) 
 // ProductList Component
 const ProductList = () => {
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function products() {
+      const response = await producttag("featured");
+      setProducts(response.result);
+      console.log(response);
+    }
+
+    products();
+  }, []);
 
   // Navigate function
   const goto = (page) => {
@@ -74,67 +87,9 @@ const ProductList = () => {
   };
 
   // Define your products array
-  const products = [
    
-    {
-      id: 1,
-      imageUrl: 'src/assets/img/table1.jpg',
-      
-      title: 'chair',
-      price: 72.6,
-      originalPrice: 121,
-      rating: 4,
-      colors: ['#B0A78B', '#D3B5A5', '#DCDCDC']
-    },
-    {
-      id: 2,
-      imageUrl: 'src/assets/img/table1.jpg',
-      title: 'table',
-      price: 95.5,
-      originalPrice: 140,
-      rating: 5,
-      colors: ['#2E2E2E', '#FF5733', '#D3B5A5']
-    },
-
-    {
-      id: 3,
-      imageUrl: 'src/assets/img/table1.jpg',
-      title: 'table',
-      price: 95.5,
-      originalPrice: 140,
-      rating: 5,
-      colors: ['#2E2E2E', '#FF5733',]
-    },
-
-    {
-      id: 4,
-      imageUrl: 'src/assets/img/Wach1.jpg',
-      title: 'watch',
-      price: 184,
-      originalPrice: 230,
-      rating: 4,
-      colors: ['#4CAF50', '#2C3E50']
-    },
-    {
-      id: 5,
-      imageUrl: 'src/assets/img/Wach1.jpg',
-      title: 'table',
-      price: 95.5,
-      originalPrice: 140,
-      rating: 5,
-      colors: ['#2E2E2E', '#FF5733', '#D3B5A5']
-    },
-    {
-      id: 6,
-      imageUrl: 'src/assets/img/Wach1.jpg',
-      title: 'table',
-      price: 95.5,
-      originalPrice: 140,
-      rating: 5,
-      colors: ['#2E2E2E', '#FF5733', '#D3B5A5']
-    },
-    // Additional products
-  ];
+    // // Additional products
+  
 
   return (
     <div>
@@ -165,12 +120,12 @@ const ProductList = () => {
         {products.map((product) => (
           <ProductCard
             key={product.id}
-            imageUrl={product.imageUrl}
-            title={product.title}
-            price={product.price}
-            originalPrice={product.originalPrice}
-            rating={product.rating}
-            colors={product.colors}
+            imageUrl="src/assets/img/8.jpg"
+            title={product.itemsName}
+            price={product.itemsPrice}
+            originalPrice={product.itemsPrice}
+            // rating={product.rating}
+            // colors={product.colors}
           />
         ))}
       </div>

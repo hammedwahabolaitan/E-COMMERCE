@@ -1,11 +1,21 @@
-import React from 'react'
-// import HomePage from './pages/HomePage'
-import Router from './frame/Router'
+import Router from "./frame/Router";
+import { RecoilRoot } from "recoil";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 export default function App() {
   return (
-    <div>
-      {/* <HomePage /> */}
-      <Router />
-    </div>
-  )
+    <RecoilRoot>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestonTop={false}
+        closeOnClick
+        // className="max-w-32 fixed z-50 border"
+      />
+      <div className="bg-blac text-whit ">
+        <Router />
+      </div>
+    </RecoilRoot>
+  );
 }
