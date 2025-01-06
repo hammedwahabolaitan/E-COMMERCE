@@ -4,13 +4,13 @@ import Hero from '../pages/Hero'
 import SubHero from '../pages/SubHero'
 import Product from '../pages/Product'
 import Section from  '../pages/Section'
-import Footers from '../pages/footers'
 import BannerSection from './BannerSection'
 import Services from '../pages/Services'
 import SpecialProduct from './SpecialProduct'
 import InstagramSection from './InstergramSection'
 import LogoSection from './LogoSection'
 import Modal from '../component/Modal'
+import Footers from './Footers'
 export default function HomePage() {
   return (
     <div>

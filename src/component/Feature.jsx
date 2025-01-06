@@ -1,17 +1,10 @@
-
-
-
-
-      
-
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Footers from '../pages/footers';
 import Header from './Header';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { producttag } from '../pages/api';
+import Footers from '../pages/Footers';
 // ProductCard Component
 const ProductCard = ({ imageUrl, title, price, originalPrice}) => {
   return (

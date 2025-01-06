@@ -1,8 +1,8 @@
 import React from 'react';
-import Footers from '../pages/footers';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { producttag } from '../pages/api';
+import Footers from '../pages/Footers';
 // ProductCard Component
 const ProductCard = ({ imageUrl, title, price, originalPrice}) => {
 
