@@ -88,7 +88,7 @@ const ProductList = () => {
         {products.map((product) => (
           <ProductCard
             key={product.id}
-            imageUrl="src/assets/img/8.jpg"
+            imageUrl="/image/8.jpg"
             title={product.itemsName}
             price={product.itemsPrice}
             originalPrice={product.originalPrice}

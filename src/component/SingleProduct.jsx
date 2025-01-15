@@ -59,7 +59,7 @@ useEffect(() => {
 
   return (
     <div className="container mx-auto p-4">
-      <img src="../src/assets/img/8.jpg"  className='w-72 h-96' alt="" />
+      <img src="/image/8.jpg"  className='w-72 h-96' alt="" />
       <h2 className="text-2xl font-bold">{products.itemsName}</h2>
       {/* <p className="line-through text-gray-500">${products.originalPrice}</p> */}
       <p className="text-xl text-green-500">${products.itemsPrice}</p>

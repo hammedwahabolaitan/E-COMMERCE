@@ -88,7 +88,7 @@ const ProductList = () => {
               {/* Product Image */}
               <div className="relative">
                 <img
-                  src="src/assets/img/8.jpg"
+                  src="/image/8.jpg"
                   alt={product.itemsName}
                   className="w-full h-[65vh] object-cover rounded-t-md"
                 />

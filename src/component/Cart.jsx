@@ -74,7 +74,7 @@ async function checkout() {
               {cart.map((item) => (
                 <tr key={item.id} className="border-t">
                   <td className="p-4">
-                    <img src="src/assets/img/3(2).jpg" className="w-16 h-16 object-cover" />
+                    <img src="/image/3(2).jpg" className="w-16 h-16 object-cover" />
                   </td>
                   <td className="p-4">
                     <a href={`/left-sidebar/product/${item.id}`} className="text-blue-500 hover:underline">

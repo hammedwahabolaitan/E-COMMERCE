@@ -10,14 +10,13 @@ const InstagramSection = () => {
   };
 
   const images = [
-    'src/assets/img/9(1).jpg',
-    '/src/assets/img/1(2).jpg',
-    '/src/assets/img/3(2).jpg',
-    '/src/assets/img/5(2).jpg',
-    '/src/assets/img/7(1).jpg',
-    '/src/assets/img/5(2).jpg',
-    '/src/assets/img/1(2).jpg',
-    // '/src/assets/img/1.jpg',
+    '/image/9(1).jpg',
+    '/image/1(2).jpg',
+    '/image/3(2).jpg',
+    '/image/5(2).jpg',
+    '/image/7(1).jpg',
+    '/image/5(2).jpg',
+    '/image/1(2).jpg',
   ];
 
   return (
@@ -28,7 +27,7 @@ const InstagramSection = () => {
           {images.map((image, index) => (
             <div key={index} className="p-2">
               <div className="relative">
-                <img src={image} alt={`Instagram ${index}`} className="w-full object-cover" />
+                <image src={image} alt={`Instagram ${index}`} className="w-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center hover:bg-[#fc3b3b] hover:bg-opacity-55 ">
                   <i className="pi pi-instagram text-white text-2xl"></i>
                 </div>
